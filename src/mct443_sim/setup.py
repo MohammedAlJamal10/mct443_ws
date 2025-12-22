@@ -11,7 +11,7 @@ setup(
          ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
         ('share/' + package_name + '/launch',
-         ['launch/spawn_robot.launch.py']),
+         ['launch/spawn_robot.launch.py', 'launch/spawn_robot_launch2.py']),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
