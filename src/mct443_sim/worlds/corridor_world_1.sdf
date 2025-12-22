@@ -1,0 +1,109 @@
+<sdf version="1.7">
+  <world name="corridor_world">
+
+    <plugin
+        filename="gz-sim-physics-system"
+        name="gz::sim::systems::Physics">
+    </plugin>
+
+    <plugin
+        filename="gz-sim-scene-broadcaster-system"
+        name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <plugin
+        filename="gz-sim-sensors-system"
+        name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <gravity>0 0 -9.81</gravity>
+
+    <!-- Ground plane: top surface at z = 0 -->
+    <model name="ground_plane">
+      <static>true</static>
+      <pose>0 0 -0.01 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>20 20 0.02</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>20 20 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.5 0.5 1</ambient>
+            <diffuse>0.5 0.5 0.5 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <light name="sun" type="directional">
+      <pose>0 0 10 0.5 0.1 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>-0.5 0 -1</direction>
+      <cast_shadows>true</cast_shadows>
+    </light>
+
+    <!-- Left curb -->
+    <model name="left_curb">
+      <pose>5 0.5 0.1 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>10 0.10 0.2</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>10 0.10 0.2</size></box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Right curb -->
+    <model name="right_curb">
+      <pose>5 -0.5 0.1 0 0 0</pose>
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>10 0.10 0.2</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>10 0.10 0.2</size></box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Robot include -->
+    <include>
+      <uri>model://simple_robot</uri>
+      <name>robot</name>
+      <!-- Spawn sitting on ground -->
+      <pose>0.5 0 0 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>

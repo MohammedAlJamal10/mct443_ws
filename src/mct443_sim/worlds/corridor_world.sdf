@@ -1,0 +1,197 @@
+<?xml version="1.0" ?>
+<sdf version="1.7">
+  <world name="corridor_world_02">
+
+    <!-- ========================= -->
+    <!-- Physics & Systems -->
+    <!-- ========================= -->
+    <plugin filename="gz-sim-physics-system"
+            name="gz::sim::systems::Physics"/>
+
+    <plugin filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster"/>
+
+    <plugin filename="gz-sim-sensors-system"
+            name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <gravity>0 0 -9.81</gravity>
+
+    <!-- ========================= -->
+    <!-- Scene (background + ambient) -->
+    <!-- ========================= -->
+    <scene>
+      <background>0.75 0.75 0.75 1</background>
+      <ambient>0.6 0.6 0.6 1</ambient>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- ========================= -->
+    <!-- Sun Light -->
+    <!-- ========================= -->
+    <light name="sun" type="directional">
+      <pose>0 0 20 0 0 0</pose>
+      <direction>-0.3 -0.3 -1</direction>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>100</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+    </light>
+
+    <!-- ========================= -->
+    <!-- Ground Plane -->
+    <!-- ========================= -->
+    <model name="ground_plane">
+      <static>true</static>
+      <pose>0 0 -0.01 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>20 20 0.02</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>20 20 0.02</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ========================= -->
+    <!-- Corridor Curbs (±0.4 m) -->
+    <!-- ========================= -->
+    <model name="left_curb">
+      <static>true</static>
+      <pose>5 0.4 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>10 0.10 0.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>10 0.10 0.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.6 0.6 1</ambient>
+            <diffuse>0.6 0.6 0.6 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="right_curb">
+      <static>true</static>
+      <pose>5 -0.4 0.1 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>10 0.10 0.2</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>10 0.10 0.2</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.6 0.6 0.6 1</ambient>
+            <diffuse>0.6 0.6 0.6 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ========================= -->
+    <!-- Obstacles (ON GROUND) -->
+    <!-- ========================= -->
+
+    <!-- Obstacle at 4 m → RIGHT -->
+    <!-- Height = 0.20 → Z = 0.10 -->
+    <model name="obstacle_4m_right">
+      <static>true</static>
+      <pose>4 -0.2 0.10 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.15 0.25 0.20</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.15 0.25 0.20</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.5 0.2 0.2 1</ambient>
+            <diffuse>0.7 0.3 0.3 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacle at 8 m → LEFT -->
+    <!-- Height = 0.20 → Z = 0.10 -->
+    <model name="obstacle_8m_left">
+      <static>true</static>
+      <pose>8 0.2 0.10 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.15 0.25 0.20</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.15 0.25 0.20</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.5 1</ambient>
+            <diffuse>0.3 0.3 0.7 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ========================= -->
+    <!-- Robot -->
+    <!-- ========================= -->
+    <include>
+      <uri>model://simple_robot</uri>
+      <name>robot</name>
+      <pose>0.5 0 0 0 0 0</pose>
+    </include>
+
+  </world>
+</sdf>

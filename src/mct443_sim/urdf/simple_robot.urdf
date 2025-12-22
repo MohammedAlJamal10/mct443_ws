@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<robot name="simple_diff_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ================= BASE LINK ================= -->
+  <link name="base_link">
+    <visual>
+      <!-- Shift forward so shortening happens from the rear -->
+      <origin xyz="0.025 0 0"/>
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+      <material>
+        <color rgba="0.3 0.3 0.3 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <origin xyz="0.025 0 0"/>
+      <geometry>
+        <box size="0.2 0.2 0.1"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= LEFT WHEEL ================= -->
+  <link name="left_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+      <material>
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= RIGHT WHEEL ================= -->
+  <link name="right_wheel">
+    <visual>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+      <material>
+        <color rgba="0 0 0 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <geometry>
+        <cylinder length="0.02" radius="0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= REAR CASTER WHEEL ================= -->
+  <link name="caster_wheel">
+    <visual>
+      <geometry>
+        <sphere radius="0.025"/>
+      </geometry>
+      <material>
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </visual>
+
+    <collision>
+      <geometry>
+        <sphere radius="0.025"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- ================= JOINTS ================= -->
+  <joint name="left_wheel_joint" type="continuous">
+    <parent>base_link</parent>
+    <child>left_wheel</child>
+    <origin xyz="0 -0.1 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="right_wheel_joint" type="continuous">
+    <parent>base_link</parent>
+    <child>right_wheel</child>
+    <origin xyz="0 0.1 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
+
+  <joint name="caster_joint" type="fixed">
+    <parent>base_link</parent>
+    <child>caster_wheel</child>
+    <!-- Moved forward to stay inside shortened rear -->
+    <origin xyz="-0.08 0 -0.05"/>
+  </joint>
+
+  <!-- ================= LIDAR ================= -->
+  <link name="lidar_link">
+    <visual>
+      <geometry>
+        <cylinder radius="0.03" length="0.05"/>
+      </geometry>
+      <material>
+        <color rgba="0 1 0 1"/>
+      </material>
+    </visual>
+  </link>
+
+  <joint name="lidar_joint" type="fixed">
+    <parent>base_link</parent>
+    <child>lidar_link</child>
+    <!-- Front reference preserved -->
+    <origin xyz="0.15 0 0.1"/>
+  </joint>
+
+  <!-- ================= GAZEBO PLUGINS ================= -->
+  <gazebo>
+    <plugin name="diff_drive" filename="libgz-plugin-diff-drive-system.so">
+      <wheel_separation>0.2</wheel_separation>
+      <wheel_radius>0.05</wheel_radius>
+      <left_joint>left_wheel_joint</left_joint>
+      <right_joint>right_wheel_joint</right_joint>
+      <odom_topic>odom</odom_topic>
+      <cmd_vel_topic>cmd_vel</cmd_vel_topic>
+    </plugin>
+  </gazebo>
+
+  <gazebo>
+    <plugin name="lidar" filename="libgz-plugin-ray-sensor-system.so">
+      <sensor_name>scan</sensor_name>
+      <topic>scan</topic>
+      <update_rate>20</update_rate>
+      <horizontal_fov>3.14</horizontal_fov>
+      <horizontal_resolution>720</horizontal_resolution>
+      <range_min>0.05</range_min>
+      <range_max>10.0</range_max>
+    </plugin>
+  </gazebo>
+
+</robot>
