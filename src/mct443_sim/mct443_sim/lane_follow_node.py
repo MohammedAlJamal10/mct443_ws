@@ -44,7 +44,7 @@ class LaneFollowNode(Node):
         # ---------------------------
 
         # Control timer (10 Hz)
-        self.timer = self.create_timer(0.1, self.control_loop)
+        self.timer = self.create_timer(0.01, self.control_loop)
 
         self.get_logger().info('Lane follow node started')
 
